@@ -19,6 +19,12 @@ public class EmployeeController {
         return employee;
     }
 
+    @GetMapping("/emp2/{id}")
+    public Employee getEmployee2(@PathVariable("id") Integer id) {
+        Employee employee = employeeService.getEmp2(id);
+        return employee;
+    }
+
     @GetMapping("/emp")
     public Employee update(Employee employee) {
         Employee emp = employeeService.updateEmp(employee);

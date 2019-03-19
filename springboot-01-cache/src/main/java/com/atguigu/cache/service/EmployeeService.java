@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 @Service
+@CacheConfig(cacheNames = "emp2"/*,cacheManager = "employeeCacheManager"*/) //抽取缓存的公共配置
 public class EmployeeService {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -89,6 +90,13 @@ public class EmployeeService {
 //    @Cacheable(value = "emp", unless = "#p0>1")  //除了参数值大于1都缓存
 //    @Cacheable(value = "emp", sync = true)  //是否异步执行
     public Employee getEmp(Integer id) {
+        System.out.println("查询" + id + "号员工");
+        Employee emp = employeeMapper.getEmpById(id);
+        return emp;
+    }
+
+    @Cacheable
+    public Employee getEmp2(Integer id) {
         System.out.println("查询" + id + "号员工");
         Employee emp = employeeMapper.getEmpById(id);
         return emp;
