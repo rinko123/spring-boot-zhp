@@ -2,11 +2,14 @@ package com.atguigu.cache;
 
 import com.atguigu.cache.bean.Department;
 import com.atguigu.cache.bean.Employee;
+import com.atguigu.cache.mapper.DepartmentMapper;
 import com.atguigu.cache.mapper.EmployeeMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.Cache;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -104,5 +107,24 @@ public class Springboot01CacheApplicationTests {
         System.out.println(redisTemplate.opsForValue().get("dept001"));
     }
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    DepartmentMapper departmentMapper;
+
+    @Autowired
+    RedisCacheManager redisCacheManager;
+
+    @Test
+    public void getDeptById2() {
+
+        Department department = departmentMapper.getDeptById(1);
+        //获取某个缓存
+        Cache abc = redisCacheManager.getCache("abc");
+
+        abc.put("bcd", department); //插入数据
+
+        abc.get("bcd", Department.class);   //查询
+
+    }
 
 }
