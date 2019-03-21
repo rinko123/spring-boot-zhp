@@ -3,6 +3,7 @@ package com.atguigu.amqp;
 import com.atguigu.amqp.bean.Book;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -53,6 +54,24 @@ public class Springboot02AmqpApplicationTests {
     @Test
     public void sendMsg() {
         rabbitTemplate.convertAndSend("exchange.fanout", "", new Book("红楼梦", "曹雪芹"));
+    }
+
+    @Autowired
+    AmqpAdmin amqpAdmin;
+
+    @Test
+    public void createExchange() {
+
+//        amqpAdmin.declareExchange(new FanoutExchange("amqpadmin.exchange"));
+//        amqpAdmin.declareExchange(new TopicExchange("amqpadmin.exchange"));
+
+        amqpAdmin.declareExchange(new DirectExchange("amqpadmin.exchange"));    //创建direct交换器
+
+        amqpAdmin.declareQueue(new Queue("amqpadmin.queue", true)); //创建队列
+
+        //绑定
+        amqpAdmin.declareBinding(new Binding("amqpadmin.queue", Binding.DestinationType.QUEUE, "amqpadmin.exchange", "amqp.haha", null));
+
     }
 
 }
