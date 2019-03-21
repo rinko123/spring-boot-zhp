@@ -1,5 +1,6 @@
 package com.atguigu.amqp;
 
+import com.atguigu.amqp.bean.Book;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -40,10 +41,18 @@ public class Springboot02AmqpApplicationTests {
      * 接受数据
      */
     @Test
-    public void receive(){
+    public void receive() {
         Object o = rabbitTemplate.receiveAndConvert("atguigu.news");
         System.out.println(o.getClass());   //class java.util.HashMap
         System.out.println(o);  //{msg=这是第一个消息, data=[helloworld, 123, true]}
+    }
+
+    /**
+     * 广播
+     */
+    @Test
+    public void sendMsg() {
+        rabbitTemplate.convertAndSend("exchange.fanout", "", new Book("红楼梦", "曹雪芹"));
     }
 
 }
