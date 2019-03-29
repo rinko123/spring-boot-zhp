@@ -21,6 +21,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 		configure(HttpSecurity http){
  * 		 	http.formLogin();
  * 		}
+ * 6、注销：http.logout();
+ * 7、记住我：Remeberme()；
  */
 @SpringBootApplication
 public class Springboot05SecurityApplication {
