@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 
@@ -58,6 +59,22 @@ public class Springboot04TaskApplicationTests {
         helper.addAttachment("2.jpg", new File("C:\\Users\\Rinko\\Desktop\\アサちゃん.jpg"));
 
         mailSender.send(mimeMessage);
+    }
+
+    @Test
+    public void test03() {
+        Boolean flag = true;
+        try {
+//            可以修改配置后用新的配置代替yml配置发送邮件
+//            mailSender.setUsername("");
+//            mailSender.setHost("");
+//            mailSender.setPassword("");
+            mailSender.testConnection();
+        } catch (MessagingException e) {
+            flag = false;
+            e.printStackTrace();
+        }
+        System.out.println(flag);
     }
 
 }
